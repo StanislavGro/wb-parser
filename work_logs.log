@@ -1,0 +1,9 @@
+2024-08-03 02:27:47,468, INFO, root, Выполняю поиск данных по артикулу: 148928556.
+2024-08-03 02:27:47,471, DEBUG, urllib3.connectionpool, Starting new HTTPS connection (1): card.wb.ru:443
+2024-08-03 02:27:47,726, DEBUG, urllib3.connectionpool, https://card.wb.ru:443 "GET /cards/detail?appType=1&curr=rub&dest=-366541&spp=30&ab_testing=false&nm=148928556 HTTP/11" 200 None
+2024-08-03 02:27:48,229, INFO, root, Выполняю поиск данных по артикулу: 38438616.
+2024-08-03 02:27:48,231, DEBUG, urllib3.connectionpool, Starting new HTTPS connection (1): card.wb.ru:443
+2024-08-03 02:27:48,439, DEBUG, urllib3.connectionpool, https://card.wb.ru:443 "GET /cards/detail?appType=1&curr=rub&dest=-366541&spp=30&ab_testing=false&nm=38438616 HTTP/11" 200 None
+2024-08-03 02:27:48,940, INFO, root, Выполняю поиск данных по артикулу: 148825453.
+2024-08-03 02:27:48,941, DEBUG, urllib3.connectionpool, Starting new HTTPS connection (1): card.wb.ru:443
+2024-08-03 02:27:49,454, DEBUG, urllib3.connectionpool, https://card.wb.ru:443 "GET /cards/detail?appType=1&curr=rub&dest=-366541&spp=30&ab_testing=false&nm=148825453 HTTP/11" 200 None
