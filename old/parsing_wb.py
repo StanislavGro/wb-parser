@@ -6,6 +6,11 @@ import pandas as pd
 import requests
 from fake_useragent import UserAgent
 
+
+proxies = {
+    'http': 'http://isaqkhag4k-res-country-DE-state-2905330-city-2925533-hold-session-session-66ad06ae31eab:tMWKuVShlInBw2OY@93.190.138.107:9999'
+}
+
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s, %(levelname)s, %(name)s, %(message)s',
@@ -60,7 +65,9 @@ def parse_product(delay_vendor: float = 0.5) -> None:
             headers = {'user-agent': UserAgent(use_external_data=True).chrome}
             response = requests.get(url=f'https://card.wb.ru/cards/detail'
                                         f'?appType=1&curr=rub&dest=-366541&spp=30&ab_testing=false'
-                                        f'&nm={vendor_code}', headers=headers)
+                                        f'&nm={vendor_code}',
+                                    headers=headers,
+                                    proxies=proxies)
 
             try:
                 response.raise_for_status()
