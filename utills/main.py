@@ -1,15 +1,17 @@
-import io
 import logging
 import sys
 import time
-import zipfile
+from io import BytesIO
+import os
 from typing import List, Dict, Union
 
 import pandas as pd
 import requests
+from PIL import Image
 from fake_useragent import UserAgent
 
 from constants import NOT_FOUND_STRING, NOT_FOUND_INT
+from url_generator import GenerateImgUrl
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -84,7 +86,8 @@ def parse_product(delay: float = 0.5) -> None:
 
 
 # Loading vendor codes from file
-def load_vendor_codes(file_path: str = 'vendor_codes.txt') -> List[int]:
+def load_vendor_codes(file_path: str = "C:\\Users\\Youngstanislav\\PycharmProjects\\parsing-wb\\vendor_codes.txt") -> \
+        List[int]:
     try:
         with open(file_path, 'r') as open_file:
             lines = [int(result.strip()) for result in open_file.readlines()]
@@ -99,7 +102,7 @@ def load_vendor_codes(file_path: str = 'vendor_codes.txt') -> List[int]:
 
 # Writing parsed datas to xlsx file
 def write_to_xlsx(data: Dict[str, List[Union[int, str, float]]],
-                  file_name: str = 'product info/product_info_table.xlsx',
+                  file_name: str = 'C:\\Users\\Youngstanislav\\PycharmProjects\\parsing-wb\\product info\\product_info_table.xlsx',
                   sheet_name: str = 'wildberries') -> None:
     df = pd.DataFrame(data)
     df.to_excel(file_name, index=False, sheet_name=sheet_name)
@@ -107,21 +110,36 @@ def write_to_xlsx(data: Dict[str, List[Union[int, str, float]]],
 
 def download_and_unzip_files(vendor_codes: List[int], headers) -> None:
     for vendor_code in vendor_codes:
-        request = requests.post(url='https://wbcon.ru/wp-json/wb-services/v1/photo-wb-demo/post_photo_new_task_demo',
-                                headers=headers,
-                                data={
-                                    'request': f'https://www.wildberries.ru/catalog/{vendor_code}/detail.aspx?targetUrl=SP'
-                                },
-                                proxies=proxies)
-        request.raise_for_status()
-        time.sleep(0.5)
-        response = requests.get(url=f'https://wbcon.ru/tmp/{vendor_code}.zip',
-                                headers=headers,
-                                proxies=proxies)
-        response.raise_for_status()
-        time.sleep(0.5)
-        with response, zipfile.ZipFile(io.BytesIO(response.content)) as archive:
-            archive.extractall(f'product info/{vendor_code}')
+
+        # Создаем директорию для vendor_code, если ее нет
+        directory = f'C:\\Users\\Youngstanislav\\PycharmProjects\\parsing-wb\\product info\\{vendor_code}'
+        os.makedirs(directory, exist_ok=True)
+
+        found_image = False
+
+        for i in range(8):
+
+            generator = GenerateImgUrl(nmId=vendor_code, photoNumber=i)
+
+            generatedUrl = generator.url()
+
+            try:
+                response = requests.get(url=generatedUrl,
+                                        headers=headers,
+                                        proxies=proxies)
+                response.raise_for_status()
+
+                if response.status_code == 200:
+                    image = Image.open(BytesIO(response.content))
+                    filename = f'C:\\Users\\Youngstanislav\\PycharmProjects\\parsing-wb\\product info\\{vendor_code}\\{i}.png'
+                    image.save(filename)
+                    print(f"Изображение {i} для {vendor_code} успешно скачано")
+                else:
+                    print(f"Изображение {i} для {vendor_code} не найдено")
+                    break  # Выходим из цикла, если изображение не найдено
+
+            except requests.exceptions.RequestException as e:
+                print(f"Ошибка при загрузке изображения {i} для {vendor_code}: {e}")
 
 
 if __name__ == "__main__":
