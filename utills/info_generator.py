@@ -1,8 +1,8 @@
 import logging
+import os
 import sys
 import time
 from io import BytesIO
-import os
 from typing import List, Dict, Union
 
 import pandas as pd
@@ -10,8 +10,8 @@ import requests
 from PIL import Image
 from fake_useragent import UserAgent
 
-from constants import NOT_FOUND_STRING, NOT_FOUND_INT
-from url_generator import GenerateImgUrl
+from utills.consts import NOT_FOUND_STRING, NOT_FOUND_INT
+from utills.url_generator import ImageUrlGenerator
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -30,7 +30,7 @@ proxies = {
 
 
 # Parsing product information on vendor code
-def parse_product(delay: float = 0.5) -> None:
+def parse_product(vendor_codes: List[int] = None, delay: float = 0.5):
     results = {
         'Brand': [],
         'Product name': [],
@@ -43,7 +43,8 @@ def parse_product(delay: float = 0.5) -> None:
         'Rating': [],
     }
 
-    vendor_codes = load_vendor_codes()
+    if vendor_codes is None or len(vendor_codes) == 0:
+        vendor_codes = load_vendor_codes()
 
     if vendor_codes:
         for vendor_code in vendor_codes:
@@ -76,13 +77,15 @@ def parse_product(delay: float = 0.5) -> None:
                         results['Rating'].append(product.get('rating', NOT_FOUND_INT))
                 results['Description'].append(wb_pics_response.json().get('description', NOT_FOUND_STRING))
             except requests.exceptions.HTTPError:
-                logger.warning('Failed to get info from vendor code: {vendor_code}')
+                logger.warning(f'Failed to get info from vendor code: {vendor_code}')
             except AttributeError as e:
-                logger.error('Failed to parse vendor code {vendor_code} cause of: {e}')
+                logger.error(f'Failed to parse vendor code {vendor_code} cause of: {e}')
         write_to_xlsx(results)
         download_and_unzip_files(vendor_codes, headers)
     else:
         logger.critical('Failed to load data!')
+
+    return results
 
 
 # Loading vendor codes from file
@@ -115,31 +118,30 @@ def download_and_unzip_files(vendor_codes: List[int], headers) -> None:
         directory = f'C:\\Users\\Youngstanislav\\PycharmProjects\\parsing-wb\\product info\\{vendor_code}'
         os.makedirs(directory, exist_ok=True)
 
-        found_image = False
+        imageGenerator = ImageUrlGenerator(nmId=vendor_code)
+        imageGenerator.generate_url()
 
-        for i in range(8):
+        for i in range(1, 3):
 
-            generator = GenerateImgUrl(nmId=vendor_code, photoNumber=i)
-
-            generatedUrl = generator.url()
+            generatedUrl = imageGenerator.change_photo_number(i)
 
             try:
-                response = requests.get(url=generatedUrl,
-                                        headers=headers,
-                                        proxies=proxies)
+                response = requests.get(url=generatedUrl, headers=headers, proxies=proxies)
                 response.raise_for_status()
 
-                if response.status_code == 200:
-                    image = Image.open(BytesIO(response.content))
-                    filename = f'C:\\Users\\Youngstanislav\\PycharmProjects\\parsing-wb\\product info\\{vendor_code}\\{i}.png'
-                    image.save(filename)
-                    print(f"Изображение {i} для {vendor_code} успешно скачано")
-                else:
-                    print(f"Изображение {i} для {vendor_code} не найдено")
-                    break  # Выходим из цикла, если изображение не найдено
+                image = Image.open(BytesIO(response.content))
+                filename = f'C:\\Users\\Youngstanislav\\PycharmProjects\\parsing-wb\\product info\\{vendor_code}\\{i}.png'
+                image.save(filename)
 
             except requests.exceptions.RequestException as e:
-                print(f"Ошибка при загрузке изображения {i} для {vendor_code}: {e}")
+                logger.error(f"Failed to download image by id {i} of vendor's code {vendor_code}: {e}")
+                break
+
+        logger.info(f"All images of vendor code {vendor_code} was successfully downloaded")
+
+
+def create_product_info(vendor_codes: List[int]):
+    return parse_product(vendor_codes)
 
 
 if __name__ == "__main__":
