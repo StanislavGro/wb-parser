@@ -1,26 +1,14 @@
 import asyncio
-import logging
-import sys
 
 from aiogram import Bot, Dispatcher, types
-from aiogram.enums.parse_mode import ParseMode
+from aiogram.enums import ParseMode
 from aiogram.filters.command import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.types import LinkPreviewOptions
+from aiogram.types import FSInputFile
+from aiogram.utils.media_group import MediaGroupBuilder
 
-from utills.info_generator import create_product_info
+from utills.info_generator import create_product_info, logger, replace_sensitive_symbols
 from wb_fsm import WbFsm
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
-handler = logging.StreamHandler(sys.stdout)
-handler.setLevel(logging.INFO)
-
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-handler.setFormatter(formatter)
-
-logger.addHandler(handler)
 
 bot = Bot(token="7539583957:AAF4PtePl3ovmTbnX-OIElw44IHsqtbLFB4")
 dp = Dispatcher()
@@ -40,42 +28,39 @@ async def cmd_wb(message: types.Message, state: FSMContext):
 @dp.message(WbFsm.input_vendor_code)
 async def choosing_vendor_code(message: types.Message, state: FSMContext):
     vendor_code = int(message.text)
+
     result = create_product_info([vendor_code])
 
-    result['Product name'] = (str(result['Product name'])
-                             .replace("-", "\\-")
-                             .replace(".", "\\.")
-                             .replace("!", "\\!")
-                             .replace("'", ""))
+    logger.info(result)
 
-    result['Description'] = (str(result['Description'])
-                             .replace("-", "\\-")
-                             .replace(".", "\\.")
-                             .replace("!", "\\!"))
+    logger.info(result['Images'][f'{vendor_code}'])
 
-    result['Amount of discount'] = (str(result['Amount of discount'])
-                                    .replace("-", "\\-")
-                                    .replace(".", "\\.")
-                                    .replace("!", "\\!"))
+    text = f"*{replace_sensitive_symbols(result['Product name'][0])}*\n\n" \
+           f"{replace_sensitive_symbols(result['Description'][0][:750])}\n\n" \
+           f"*Цена:* {replace_sensitive_symbols(result['Amount of discount'][0])} ₽ ||~{replace_sensitive_symbols(result['Price'][0])} ₽~||\n\n" \
+           f"[Ссылочка на WB]({replace_sensitive_symbols(result['Product URL'][0])})"
 
-    result['Price'] = (str(result['Price'])
-                       .replace("-", "\\-")
-                       .replace(".", "\\.")
-                       .replace("!", "\\!"))
-
-    result['Product URL'] = (str(result['Product URL'])
-                             .replace("-", "\\-")
-                             .replace(".", "\\.")
-                             .replace("!", "\\!"))
-
-    await message.answer(
-        text=f"*{result['Product name']}*\n\n"
-             f"{result['Description']}\n\n"
-             f"Цена: {result['Amount of discount']} ₽ ||~{result['Price']} ₽~||\n\n"
-             f"[Ссылочка на WB]({result['Product URL']})",
-        parse_mode=ParseMode.MARKDOWN_V2,
-        link_preview_options=LinkPreviewOptions(is_disabled=True)
+    album_builder = MediaGroupBuilder(
+        caption=text
     )
+
+    for i, photo_path in enumerate(result['Images'][f'{vendor_code}']):
+        if i == 0:
+            album_builder.add_photo(
+                media=FSInputFile(photo_path),
+                parse_mode=ParseMode.MARKDOWN_V2,
+                caption=text,
+            )
+        else:
+            album_builder.add_photo(
+                media=FSInputFile(photo_path),
+                parse_mode=ParseMode.MARKDOWN_V2,
+            )
+
+    await message.answer_media_group(
+        media=album_builder.build(),
+    )
+
     await state.clear()
 
 

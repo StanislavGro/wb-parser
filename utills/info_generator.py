@@ -10,7 +10,7 @@ import requests
 from PIL import Image
 from fake_useragent import UserAgent
 
-from utills.consts import NOT_FOUND_STRING, NOT_FOUND_INT
+from utills.consts import NOT_FOUND_STRING, NOT_FOUND_INT, PHOTO_FIRST_ID, PHOTO_LAST_ID
 from utills.url_generator import ImageUrlGenerator
 
 logger = logging.getLogger(__name__)
@@ -41,6 +41,7 @@ def parse_product(vendor_codes: List[int] = None, delay: float = 0.5):
         'Product URL': [],
         'Number of reviews': [],
         'Rating': [],
+        'Images': Dict[str, List[str]],
     }
 
     if vendor_codes is None or len(vendor_codes) == 0:
@@ -67,11 +68,12 @@ def parse_product(vendor_codes: List[int] = None, delay: float = 0.5):
                 wb_json_data = wb_response.json().get('data')
                 if wb_json_data:
                     for product in wb_json_data.get('products'):
-                        results['Brand'].append(product.get('brand', NOT_FOUND_STRING))
-                        results['Product name'].append(product.get('name', NOT_FOUND_STRING))
+                        results['Brand'].append(product.get('brand', NOT_FOUND_STRING).strip("'"))
+                        results['Product name'].append(product.get('name', NOT_FOUND_STRING).strip("'"))
                         results['Vendor code'].append(vendor_code)
-                        results['Price'].append(product.get('priceU', NOT_FOUND_STRING) / 100)
-                        results['Amount of discount'].append(product.get('salePriceU', NOT_FOUND_STRING) / 100)
+                        results['Price'].append(process_price_number(product.get('priceU', NOT_FOUND_INT) // 100))
+                        results['Amount of discount'].append(
+                            process_price_number(product.get('salePriceU', NOT_FOUND_INT) // 100))
                         results['Product URL'].append(f'https://www.wildberries.ru/catalog/{vendor_code}/detail.aspx')
                         results['Number of reviews'].append(product.get('feedbacks', NOT_FOUND_INT))
                         results['Rating'].append(product.get('rating', NOT_FOUND_INT))
@@ -80,12 +82,28 @@ def parse_product(vendor_codes: List[int] = None, delay: float = 0.5):
                 logger.warning(f'Failed to get info from vendor code: {vendor_code}')
             except AttributeError as e:
                 logger.error(f'Failed to parse vendor code {vendor_code} cause of: {e}')
-        write_to_xlsx(results)
-        download_and_unzip_files(vendor_codes, headers)
+        # write_to_xlsx(results)
+        results['Images'] = download_and_unzip_files(vendor_codes, headers)
     else:
         logger.critical('Failed to load data!')
 
     return results
+
+
+def process_price_number(price: int) -> str:
+    result = ""
+    while price != 0:
+        a = price % 1000
+        result = f" {a}" + result
+        price //= 1000
+    return result.strip()
+
+
+def replace_sensitive_symbols(text: str) -> str:
+    return (text.replace("-", "\\-")
+            .replace(".", "\\.")
+            .replace("=", "\\=")
+            .replace("!", "\\!"))
 
 
 # Loading vendor codes from file
@@ -111,7 +129,9 @@ def write_to_xlsx(data: Dict[str, List[Union[int, str, float]]],
     df.to_excel(file_name, index=False, sheet_name=sheet_name)
 
 
-def download_and_unzip_files(vendor_codes: List[int], headers) -> None:
+def download_and_unzip_files(vendor_codes: List[int], headers) -> Dict[str, List[str]]:
+    result = {}
+
     for vendor_code in vendor_codes:
 
         # Создаем директорию для vendor_code, если ее нет
@@ -121,7 +141,9 @@ def download_and_unzip_files(vendor_codes: List[int], headers) -> None:
         imageGenerator = ImageUrlGenerator(nmId=vendor_code)
         imageGenerator.generate_url()
 
-        for i in range(1, 3):
+        images_urls = []
+
+        for i in range(PHOTO_FIRST_ID, PHOTO_LAST_ID):
 
             generatedUrl = imageGenerator.change_photo_number(i)
 
@@ -130,14 +152,19 @@ def download_and_unzip_files(vendor_codes: List[int], headers) -> None:
                 response.raise_for_status()
 
                 image = Image.open(BytesIO(response.content))
-                filename = f'C:\\Users\\Youngstanislav\\PycharmProjects\\parsing-wb\\product info\\{vendor_code}\\{i}.png'
+                filename = f'C:\\Users\\Youngstanislav\\PycharmProjects\\parsing-wb\\product info\\{vendor_code}\\{i}.jpg'
+                images_urls.append(filename)
                 image.save(filename)
 
             except requests.exceptions.RequestException as e:
                 logger.error(f"Failed to download image by id {i} of vendor's code {vendor_code}: {e}")
                 break
 
+        result[f'{vendor_code}'] = images_urls
+
         logger.info(f"All images of vendor code {vendor_code} was successfully downloaded")
+
+        return result
 
 
 def create_product_info(vendor_codes: List[int]):

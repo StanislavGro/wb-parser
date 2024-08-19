@@ -4,17 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="17a6324c-d183-47e1-94c0-c2aa9634eb2f" name="Changes" comment="сделал получение фоток">
-      <change afterPath="$PROJECT_DIR$/bot/bot.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bot/wb_fsm.py" afterDir="false" />
+    <list default="true" id="17a6324c-d183-47e1-94c0-c2aa9634eb2f" name="Changes" comment="Добавил бота и формирование сообщения">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/parsing_wb.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/task_parsing.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/test.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utills/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/utills/consts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utills/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/utills/info_generator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utills/url_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/utills/url_generator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utills/consts.py" beforeDir="false" afterPath="$PROJECT_DIR$/utills/consts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utills/info_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/utills/info_generator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,25 +30,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.bot.executor": "Run",
-    "Python.info_generator (1).executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.parsing_wb.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/youngstanis/PycharmProjects/wildberries_api",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "http.proxy",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.bot.executor&quot;: &quot;Run&quot;,
+    &quot;Python.info_generator (1).executor&quot;: &quot;Debug&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.parsing_wb.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/youngstanis/PycharmProjects/wildberries_api&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;http.proxy&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Youngstanislav\PycharmProjects\parsing-wb" />
@@ -180,7 +174,9 @@
       <workItem from="1722624381121" duration="2320000" />
       <workItem from="1722626764827" duration="930000" />
       <workItem from="1722670297897" duration="1959000" />
-      <workItem from="1723979249905" duration="16551000" />
+      <workItem from="1723979249905" duration="16896000" />
+      <workItem from="1724077537276" duration="9015000" />
+      <workItem from="1724087511949" duration="6137000" />
     </task>
     <task id="LOCAL-00001" summary="сделал получение фоток">
       <option name="closed" value="true" />
@@ -190,7 +186,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723572530141</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Добавил бота и формирование сообщения">
+      <option name="closed" value="true" />
+      <created>1724010638039</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1724010638039</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -209,7 +213,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="сделал получение фоток" />
-    <option name="LAST_COMMIT_MESSAGE" value="сделал получение фоток" />
+    <MESSAGE value="Добавил бота и формирование сообщения" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавил бота и формирование сообщения" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -231,8 +236,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/utills/info_generator.py</url>
-          <line>64</line>
-          <option name="timeStamp" value="9" />
+          <line>89</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/utills/info_generator.py</url>
+          <line>150</line>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -240,8 +250,8 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/wb_parser$parsing_wb.coverage" NAME="parsing_wb Coverage Results" MODIFIED="1722671483058" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/parsing_wb$parsing_wb.coverage" NAME="parsing_wb Coverage Results" MODIFIED="1722626865840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/parsing_wb$bot.coverage" NAME="bot Coverage Results" MODIFIED="1724010085391" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bot" />
+    <SUITE FILE_PATH="coverage/parsing_wb$bot.coverage" NAME="bot Coverage Results" MODIFIED="1724093282303" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bot" />
     <SUITE FILE_PATH="coverage/parsing_wb$main.coverage" NAME="main Coverage Results" MODIFIED="1723985983601" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utills" />
-    <SUITE FILE_PATH="coverage/parsing_wb$info_generator__1_.coverage" NAME="info_generator (1) Coverage Results" MODIFIED="1724007376775" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utills" />
+    <SUITE FILE_PATH="coverage/parsing_wb$info_generator__1_.coverage" NAME="info_generator (1) Coverage Results" MODIFIED="1724092003722" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utills" />
   </component>
 </project>
