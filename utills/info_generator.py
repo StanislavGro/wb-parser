@@ -3,6 +3,9 @@ import os
 import sys
 import time
 from io import BytesIO
+from dotenv import find_dotenv, load_dotenv
+import re
+
 from typing import List, Dict, Union
 
 import pandas as pd
@@ -12,6 +15,9 @@ from fake_useragent import UserAgent
 
 from utills.consts import NOT_FOUND_STRING, NOT_FOUND_INT, PHOTO_FIRST_ID, PHOTO_LAST_ID
 from utills.url_generator import ImageUrlGenerator
+
+load_dotenv(find_dotenv())
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -100,14 +106,11 @@ def process_price_number(price: int) -> str:
 
 
 def replace_sensitive_symbols(text: str) -> str:
-    return (text.replace("-", "\\-")
-            .replace(".", "\\.")
-            .replace("=", "\\=")
-            .replace("!", "\\!"))
+    return re.sub(r"([-_*\[\]()~>#+=|{}.!])", r"\\\1", text)
 
 
 # Loading vendor codes from file
-def load_vendor_codes(file_path: str = "/home/youngstanis/PycharmProjects/wb-parser/parsing-wb/vendor_codes.txt") -> \
+def load_vendor_codes(file_path: str = f"{os.getenv('ROOT_PATH')}{os.getenv('VENDOR_CODES_FILE')}") -> \
         List[int]:
     try:
         with open(file_path, 'r') as open_file:
@@ -123,7 +126,7 @@ def load_vendor_codes(file_path: str = "/home/youngstanis/PycharmProjects/wb-par
 
 # Writing parsed datas to xlsx file
 def write_to_xlsx(data: Dict[str, List[Union[int, str, float]]],
-                  file_name: str = '/home/youngstanis/PycharmProjects/wb-parser/product info/product_info_table.xlsx',
+                  file_name: str = f'{os.getenv('ROOT_PATH')}{os.getenv('PRODUCT_INFO_PATH')}{os.getenv('PRODUCT_INFO_TABLE')}',
                   sheet_name: str = 'wildberries') -> None:
     df = pd.DataFrame(data)
     df.to_excel(file_name, index=False, sheet_name=sheet_name)
@@ -135,7 +138,7 @@ def download_and_unzip_files(vendor_codes: List[int], headers) -> Dict[str, List
     for vendor_code in vendor_codes:
 
         # Создаем директорию для vendor_code, если ее нет
-        directory = f'/home/youngstanis/PycharmProjects/wb-parser/product info/{vendor_code}'
+        directory = f'{os.getenv('ROOT_PATH')}{os.getenv('PRODUCT_INFO_PATH')}\\{vendor_code}'
         os.makedirs(directory, exist_ok=True)
 
         imageGenerator = ImageUrlGenerator(nmId=vendor_code)
@@ -152,7 +155,7 @@ def download_and_unzip_files(vendor_codes: List[int], headers) -> Dict[str, List
                 response.raise_for_status()
 
                 image = Image.open(BytesIO(response.content))
-                filename = f'/home/youngstanis/PycharmProjects/wb-parser/product info/{vendor_code}/{i}.jpg'
+                filename = f'{os.getenv('ROOT_PATH')}{os.getenv('PRODUCT_INFO_PATH')}\\{vendor_code}\\{i}.jpg'
                 images_urls.append(filename)
                 rgb_im = image.convert('RGB')
                 rgb_im.save(filename)

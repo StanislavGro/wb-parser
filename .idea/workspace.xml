@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="17a6324c-d183-47e1-94c0-c2aa9634eb2f" name="Changes" comment="Добавил бота и формирование сообщения">
+    <list default="true" id="17a6324c-d183-47e1-94c0-c2aa9634eb2f" name="Changes" comment="Добавил нормальный вывод">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utills/consts.py" beforeDir="false" afterPath="$PROJECT_DIR$/utills/consts.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utills/info_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/utills/info_generator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -177,6 +176,8 @@
       <workItem from="1723979249905" duration="16896000" />
       <workItem from="1724077537276" duration="9015000" />
       <workItem from="1724087511949" duration="6137000" />
+      <workItem from="1724096349022" duration="1310000" />
+      <workItem from="1724171000808" duration="4686000" />
     </task>
     <task id="LOCAL-00001" summary="сделал получение фоток">
       <option name="closed" value="true" />
@@ -194,7 +195,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724010638039</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Добавил нормальный вывод">
+      <option name="closed" value="true" />
+      <created>1724096416306</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1724096416306</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -214,7 +223,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="сделал получение фоток" />
     <MESSAGE value="Добавил бота и формирование сообщения" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавил бота и формирование сообщения" />
+    <MESSAGE value="Добавил нормальный вывод" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавил нормальный вывод" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -236,12 +246,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/utills/info_generator.py</url>
-          <line>89</line>
+          <line>95</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/utills/info_generator.py</url>
-          <line>150</line>
+          <line>153</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
@@ -250,7 +260,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/wb_parser$parsing_wb.coverage" NAME="parsing_wb Coverage Results" MODIFIED="1722671483058" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/parsing_wb$parsing_wb.coverage" NAME="parsing_wb Coverage Results" MODIFIED="1722626865840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/parsing_wb$bot.coverage" NAME="bot Coverage Results" MODIFIED="1724093282303" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bot" />
+    <SUITE FILE_PATH="coverage/parsing_wb$bot.coverage" NAME="bot Coverage Results" MODIFIED="1724173483252" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bot" />
     <SUITE FILE_PATH="coverage/parsing_wb$main.coverage" NAME="main Coverage Results" MODIFIED="1723985983601" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utills" />
     <SUITE FILE_PATH="coverage/parsing_wb$info_generator__1_.coverage" NAME="info_generator (1) Coverage Results" MODIFIED="1724092003722" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utills" />
   </component>

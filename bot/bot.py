@@ -23,9 +23,9 @@ async def cmd_start(message: types.Message):
     await message.answer("Ping!")
 
 
-@dp.message(Command("wb"))
+@dp.message(Command("wildberries"))
 async def cmd_wb(message: types.Message, state: FSMContext):
-    await message.answer(text="Введите артикул")
+    await message.answer(text="Введите артикул вещи")
     await state.set_state(WbFsm.input_vendor_code)
 
 
@@ -41,12 +41,6 @@ async def choosing_vendor_code(message: types.Message, state: FSMContext):
 
     title = replace_sensitive_symbols(result['Product name'][0])
 
-    raw_descr = replace_sensitive_symbols(result['Description'][0])
-    restrict_descr = raw_descr[:1024]
-    last_dot = restrict_descr.rfind(".")
-    descr = restrict_descr[:last_dot + 1]
-    logger.info(descr)
-
     sale = replace_sensitive_symbols(result['Amount of discount'][0])
     logger.info(sale)
 
@@ -55,6 +49,15 @@ async def choosing_vendor_code(message: types.Message, state: FSMContext):
 
     url = replace_sensitive_symbols(result['Product URL'][0])
     logger.info(url)
+
+    raw_descr = replace_sensitive_symbols(result['Description'][0])
+    count_of_symbols = 1024 - len(title + "\n") - len("\nЦена: " + sale + " " + price) - len("\nСсылочка на WB")
+    restrict_descr = raw_descr[:count_of_symbols]
+    last_dot = restrict_descr.rfind(".")
+    descr = restrict_descr[:last_dot + 1]
+    logger.info(descr)
+
+
 
     text = f"*{title}*\n\n" \
            f"{descr}\n\n" \
