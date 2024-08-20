@@ -107,7 +107,7 @@ def replace_sensitive_symbols(text: str) -> str:
 
 
 # Loading vendor codes from file
-def load_vendor_codes(file_path: str = "C:\\Users\\Youngstanislav\\PycharmProjects\\parsing-wb\\vendor_codes.txt") -> \
+def load_vendor_codes(file_path: str = "/home/youngstanis/PycharmProjects/wb-parser/parsing-wb/vendor_codes.txt") -> \
         List[int]:
     try:
         with open(file_path, 'r') as open_file:
@@ -123,7 +123,7 @@ def load_vendor_codes(file_path: str = "C:\\Users\\Youngstanislav\\PycharmProjec
 
 # Writing parsed datas to xlsx file
 def write_to_xlsx(data: Dict[str, List[Union[int, str, float]]],
-                  file_name: str = 'C:\\Users\\Youngstanislav\\PycharmProjects\\parsing-wb\\product info\\product_info_table.xlsx',
+                  file_name: str = '/home/youngstanis/PycharmProjects/wb-parser/product info/product_info_table.xlsx',
                   sheet_name: str = 'wildberries') -> None:
     df = pd.DataFrame(data)
     df.to_excel(file_name, index=False, sheet_name=sheet_name)
@@ -135,7 +135,7 @@ def download_and_unzip_files(vendor_codes: List[int], headers) -> Dict[str, List
     for vendor_code in vendor_codes:
 
         # Создаем директорию для vendor_code, если ее нет
-        directory = f'C:\\Users\\Youngstanislav\\PycharmProjects\\parsing-wb\\product info\\{vendor_code}'
+        directory = f'/home/youngstanis/PycharmProjects/wb-parser/product info/{vendor_code}'
         os.makedirs(directory, exist_ok=True)
 
         imageGenerator = ImageUrlGenerator(nmId=vendor_code)
@@ -152,9 +152,10 @@ def download_and_unzip_files(vendor_codes: List[int], headers) -> Dict[str, List
                 response.raise_for_status()
 
                 image = Image.open(BytesIO(response.content))
-                filename = f'C:\\Users\\Youngstanislav\\PycharmProjects\\parsing-wb\\product info\\{vendor_code}\\{i}.jpg'
+                filename = f'/home/youngstanis/PycharmProjects/wb-parser/product info/{vendor_code}/{i}.jpg'
                 images_urls.append(filename)
-                image.save(filename)
+                rgb_im = image.convert('RGB')
+                rgb_im.save(filename)
 
             except requests.exceptions.RequestException as e:
                 logger.error(f"Failed to download image by id {i} of vendor's code {vendor_code}: {e}")

@@ -1,4 +1,5 @@
 import asyncio
+import os
 
 from aiogram import Bot, Dispatcher, types
 from aiogram.enums import ParseMode
@@ -6,11 +7,14 @@ from aiogram.filters.command import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import FSInputFile
 from aiogram.utils.media_group import MediaGroupBuilder
+from dotenv import find_dotenv, load_dotenv
 
 from utills.info_generator import create_product_info, logger, replace_sensitive_symbols
 from wb_fsm import WbFsm
 
-bot = Bot(token="7539583957:AAF4PtePl3ovmTbnX-OIElw44IHsqtbLFB4")
+load_dotenv(find_dotenv())
+
+bot = Bot(token=os.getenv('BOT_TOKEN'))
 dp = Dispatcher()
 
 
@@ -35,10 +39,27 @@ async def choosing_vendor_code(message: types.Message, state: FSMContext):
 
     logger.info(result['Images'][f'{vendor_code}'])
 
-    text = f"*{replace_sensitive_symbols(result['Product name'][0])}*\n\n" \
-           f"{replace_sensitive_symbols(result['Description'][0][:750])}\n\n" \
-           f"*Цена:* {replace_sensitive_symbols(result['Amount of discount'][0])} ₽ ||~{replace_sensitive_symbols(result['Price'][0])} ₽~||\n\n" \
-           f"[Ссылочка на WB]({replace_sensitive_symbols(result['Product URL'][0])})"
+    title = replace_sensitive_symbols(result['Product name'][0])
+
+    raw_descr = replace_sensitive_symbols(result['Description'][0])
+    restrict_descr = raw_descr[:1024]
+    last_dot = restrict_descr.rfind(".")
+    descr = restrict_descr[:last_dot + 1]
+    logger.info(descr)
+
+    sale = replace_sensitive_symbols(result['Amount of discount'][0])
+    logger.info(sale)
+
+    price = replace_sensitive_symbols(result['Price'][0])
+    logger.info(price)
+
+    url = replace_sensitive_symbols(result['Product URL'][0])
+    logger.info(url)
+
+    text = f"*{title}*\n\n" \
+           f"{descr}\n\n" \
+           f"*Цена:* {sale} ₽ ||~{price} ₽~||\n\n" \
+           f"[Ссылочка на WB]({url})"
 
     album_builder = MediaGroupBuilder(
         caption=text
