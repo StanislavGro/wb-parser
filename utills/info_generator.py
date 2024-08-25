@@ -100,7 +100,7 @@ def process_price_number(price: int) -> str:
     result = ""
     while price != 0:
         a = price % 1000
-        result = f" {a}" + result
+        result = f" {'000' if a == 0 else a}" + result
         price //= 1000
     return result.strip()
 
