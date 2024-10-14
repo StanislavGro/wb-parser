@@ -126,7 +126,7 @@ def load_vendor_codes(file_path: str = f"{os.getenv('ROOT_PATH')}{os.getenv('VEN
 
 # Writing parsed datas to xlsx file
 def write_to_xlsx(data: Dict[str, List[Union[int, str, float]]],
-                  file_name: str = f'{os.getenv('ROOT_PATH')}{os.getenv('PRODUCT_INFO_PATH')}{os.getenv('PRODUCT_INFO_TABLE')}',
+                  file_name: str = f'{os.getenv("ROOT_PATH")}{os.getenv("PRODUCT_INFO_PATH")}{os.getenv("PRODUCT_INFO_TABLE")}',
                   sheet_name: str = 'wildberries') -> None:
     df = pd.DataFrame(data)
     df.to_excel(file_name, index=False, sheet_name=sheet_name)
@@ -138,7 +138,7 @@ def download_and_unzip_files(vendor_codes: List[int], headers) -> Dict[str, List
     for vendor_code in vendor_codes:
 
         # Создаем директорию для vendor_code, если ее нет
-        directory = f'{os.getenv('ROOT_PATH')}{os.getenv('PRODUCT_INFO_PATH')}\\{vendor_code}'
+        directory = f'{os.getenv("ROOT_PATH")}{os.getenv("PRODUCT_INFO_PATH")}/{vendor_code}'
         os.makedirs(directory, exist_ok=True)
 
         imageGenerator = ImageUrlGenerator(nmId=vendor_code)
@@ -155,7 +155,7 @@ def download_and_unzip_files(vendor_codes: List[int], headers) -> Dict[str, List
                 response.raise_for_status()
 
                 image = Image.open(BytesIO(response.content))
-                filename = f'{os.getenv('ROOT_PATH')}{os.getenv('PRODUCT_INFO_PATH')}\\{vendor_code}\\{i}.jpg'
+                filename = f'{os.getenv("ROOT_PATH")}{os.getenv("PRODUCT_INFO_PATH")}/{vendor_code}/{i}.jpg'
                 images_urls.append(filename)
                 rgb_im = image.convert('RGB')
                 rgb_im.save(filename)

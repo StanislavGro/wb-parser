@@ -50,18 +50,23 @@ async def choosing_vendor_code(message: types.Message, state: FSMContext):
     url = replace_sensitive_symbols(result['Product URL'][0])
     logger.info(url)
 
+    rating = result['Rating'][0]
+    logger.info(rating)
+
     raw_descr = replace_sensitive_symbols(result['Description'][0])
-    count_of_symbols = 1024 - len(title + "\n") - len("\nЦена: " + sale + " " + price) - len("\nСсылочка на WB")
+    count_of_symbols = 1024 - len(title + "\n") - len("\nЦена: " + sale + " " + price) - len(f"*Рейтинг:* {rating} из 5\n\n") - len("\nСсылочка на WB")
     restrict_descr = raw_descr[:count_of_symbols]
     last_dot = restrict_descr.rfind(".")
     descr = restrict_descr[:last_dot + 1]
     logger.info(descr)
 
+    reviews = result['Number of reviews'][0]
 
 
     text = f"*{title}*\n\n" \
            f"{descr}\n\n" \
-           f"*Цена:* {sale} ₽ ||~{price} ₽~||\n\n" \
+           f"*Рейтинг:* {rating} из 5\n\n" \
+           f"*Цена:* ||{sale} ₽|| ~{price} ₽~\n\n" \
            f"[Ссылочка на WB]({url})"
 
     album_builder = MediaGroupBuilder(
