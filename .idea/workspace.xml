@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="17a6324c-d183-47e1-94c0-c2aa9634eb2f" name="Changes" comment="Порефакторил код">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/parsing-wb.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/parsing-wb.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utills/consts.py" beforeDir="false" afterPath="$PROJECT_DIR$/utills/consts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utills/info_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/utills/info_generator.py" afterDir="false" />
-    </list>
+    <list default="true" id="17a6324c-d183-47e1-94c0-c2aa9634eb2f" name="Changes" comment="Порефакторил код и исправил баги" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -118,6 +111,7 @@
       <workItem from="1727350174382" duration="627000" />
       <workItem from="1728900482374" duration="3767000" />
       <workItem from="1729087906694" duration="4418000" />
+      <workItem from="1729397993413" duration="79000" />
     </task>
     <task id="LOCAL-00001" summary="сделал получение фоток">
       <option name="closed" value="true" />
@@ -151,7 +145,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724177309022</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Порефакторил код и исправил баги">
+      <option name="closed" value="true" />
+      <created>1729398019356</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1729398019357</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -173,7 +175,8 @@
     <MESSAGE value="Добавил бота и формирование сообщения" />
     <MESSAGE value="Добавил нормальный вывод" />
     <MESSAGE value="Порефакторил код" />
-    <option name="LAST_COMMIT_MESSAGE" value="Порефакторил код" />
+    <MESSAGE value="Порефакторил код и исправил баги" />
+    <option name="LAST_COMMIT_MESSAGE" value="Порефакторил код и исправил баги" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
