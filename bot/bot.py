@@ -25,7 +25,7 @@ async def cmd_start(message: types.Message):
 
 @dp.message(Command("wildberries"))
 async def cmd_wb(message: types.Message, state: FSMContext):
-    await message.answer(text="Введите артикул вещи")
+    await message.answer(text="Введите артикул товара с WB 👇🏻")
     await state.set_state(WbFsm.input_vendor_code)
 
 
@@ -43,29 +43,36 @@ async def choosing_vendor_code(message: types.Message, state: FSMContext):
 
     sale = replace_sensitive_symbols(result['Amount of discount'][0])
     logger.info(sale)
-
+ 
     price = replace_sensitive_symbols(result['Price'][0])
     logger.info(price)
 
     url = replace_sensitive_symbols(result['Product URL'][0])
     logger.info(url)
 
-    rating = result['Rating'][0]
+    rating = replace_sensitive_symbols(f"{result['Rating'][0]}")
     logger.info(rating)
 
+    number_of_reviews = result['Number of reviews'][0]
+    logger.info(number_of_reviews)
+
+    if number_of_reviews == 0:
+        number_of_reviews_string = "Оценок нет:"
+    elif number_of_reviews == 1:
+        number_of_reviews_string = f"Оценка {number_of_reviews} покупателя:"
+    else:
+        number_of_reviews_string = f"Оценка {number_of_reviews} покупателей:"
+
     raw_descr = replace_sensitive_symbols(result['Description'][0])
-    count_of_symbols = 1024 - len(title + "\n") - len("\nЦена: " + sale + " " + price) - len(f"*Рейтинг:* {rating} из 5\n\n") - len("\nСсылочка на WB")
+    count_of_symbols = 1024 - len(title + "\n") - len("\nЦена: " + sale + " " + price) - len(f"*{number_of_reviews_string}* {rating} из 5\n\n") - len("\nСсылочка на WB")
     restrict_descr = raw_descr[:count_of_symbols]
     last_dot = restrict_descr.rfind(".")
     descr = restrict_descr[:last_dot + 1]
     logger.info(descr)
 
-    reviews = result['Number of reviews'][0]
-
-
     text = f"*{title}*\n\n" \
            f"{descr}\n\n" \
-           f"*Рейтинг:* {rating} из 5\n\n" \
+           f"*{number_of_reviews_string}* {rating} из 5\n\n" \
            f"*Цена:* ||{sale} ₽|| ~{price} ₽~\n\n" \
            f"[Ссылочка на WB]({url})"
 
@@ -89,6 +96,8 @@ async def choosing_vendor_code(message: types.Message, state: FSMContext):
     await message.answer_media_group(
         media=album_builder.build(),
     )
+
+    logger.info("Successful sent!")
 
     await state.clear()
 

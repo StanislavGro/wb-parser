@@ -13,7 +13,7 @@ import requests
 from PIL import Image
 from fake_useragent import UserAgent
 
-from utills.consts import NOT_FOUND_STRING, NOT_FOUND_INT, PHOTO_FIRST_ID, PHOTO_LAST_ID
+from utills.consts import NOT_FOUND_STRING, NOT_FOUND_INT, PHOTO_FIRST_ID, PHOTO_LAST_ID, NOT_FOUND_DOUBLE
 from utills.url_generator import ImageUrlGenerator
 
 load_dotenv(find_dotenv())
@@ -82,7 +82,7 @@ def parse_product(vendor_codes: List[int] = None, delay: float = 0.5):
                             process_price_number(product.get('salePriceU', NOT_FOUND_INT) // 100))
                         results['Product URL'].append(f'https://www.wildberries.ru/catalog/{vendor_code}/detail.aspx')
                         results['Number of reviews'].append(product.get('feedbacks', NOT_FOUND_INT))
-                        results['Rating'].append(product.get('rating', NOT_FOUND_INT))
+                        results['Rating'].append(product.get('reviewRating', NOT_FOUND_DOUBLE))
                 results['Description'].append(wb_pics_response.json().get('description', NOT_FOUND_STRING))
             except requests.exceptions.HTTPError:
                 logger.warning(f'Failed to get info from vendor code: {vendor_code}')
@@ -97,11 +97,20 @@ def parse_product(vendor_codes: List[int] = None, delay: float = 0.5):
 
 
 def process_price_number(price: int) -> str:
+
+    price_str = str(price)
+    price_str_len = len(price_str)
     result = ""
-    while price != 0:
-        a = price % 1000
-        result = f" {'000' if a == 0 else a}" + result
-        price //= 1000
+
+    while price_str_len > 3:
+        price_str_slice = price_str[-3:]
+        price_str_len -= 3
+        price_str = price_str[:price_str_len]
+        result = " " + price_str_slice + result
+
+    if price_str_len > 0:
+        result = price_str + result
+
     return result.strip()
 
 
