@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="17a6324c-d183-47e1-94c0-c2aa9634eb2f" name="Changes" comment="Порефакторил код и исправил баги">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/bot.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +121,7 @@
       <workItem from="1730086479103" duration="1951000" />
       <workItem from="1730702199568" duration="2524000" />
       <workItem from="1730790721747" duration="1774000" />
-      <workItem from="1730800136361" duration="4595000" />
+      <workItem from="1730800136361" duration="4693000" />
     </task>
     <task id="LOCAL-00001" summary="сделал получение фоток">
       <option name="closed" value="true" />
@@ -172,7 +171,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729398077730</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Порефакторил код и исправил баги">
+      <option name="closed" value="true" />
+      <created>1730828967898</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1730828967898</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
