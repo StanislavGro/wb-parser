@@ -45,7 +45,7 @@ async def choosing_vendor_code(message: types.Message, state: FSMContext):
     logger.info(sale)
  
     price = replace_sensitive_symbols(result['Price'][0])
-    logger.info(price)
+    logger.info(price)  
 
     url = replace_sensitive_symbols(result['Product URL'][0])
     logger.info(url)
@@ -64,17 +64,26 @@ async def choosing_vendor_code(message: types.Message, state: FSMContext):
         number_of_reviews_string = f"Оценка {number_of_reviews} покупателей:"
 
     raw_descr = replace_sensitive_symbols(result['Description'][0])
-    count_of_symbols = 1024 - len(title + "\n") - len("\nЦена: " + sale + " " + price) - len(f"*{number_of_reviews_string}* {rating} из 5\n\n") - len("\nСсылочка на WB")
+    count_of_symbols = (1024
+                        - len(title + "\n")
+                        - len("\nЦена: " + sale + " " + price)
+                        - len(f"*{number_of_reviews_string}* {rating} из 5\n\n")
+                        - len("\nСсылочка на WB\n\n")
+                        - len("   🔥 - купила бы\n")
+                        - len("   💔 - не очень"))
     restrict_descr = raw_descr[:count_of_symbols]
     last_dot = restrict_descr.rfind(".")
     descr = restrict_descr[:last_dot + 1]
     logger.info(descr)
 
+           # f"{descr}\n\n" \
+
     text = f"*{title}*\n\n" \
-           f"{descr}\n\n" \
-           f"*{number_of_reviews_string}* {rating} из 5\n\n" \
+           f"*{number_of_reviews_string}* {rating} из 5\n" \
            f"*Цена:* ||{sale} ₽|| ~{price} ₽~\n\n" \
-           f"[Ссылочка на WB]({url})"
+           f"[Ссылочка на WB]({url})\n\n" \
+           f"   🔥 \\- купила бы\n" \
+           f"   💔 \\- не очень"
 
     album_builder = MediaGroupBuilder(
         caption=text
